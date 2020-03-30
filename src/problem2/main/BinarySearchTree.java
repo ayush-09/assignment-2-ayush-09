@@ -1,19 +1,35 @@
-/*
- *  Created by IntelliJ IDEA.
- *  User: Vaibhav
- *  Date: 23-Mar-20
- *  Time: 7:17 PM
- */
-package problem1.mybst;
+package problem2.main;
 
-import com.sun.source.tree.Tree;
 import problem1.node.TreeNode;
+import problem4.myqueue.MyQueue;
 
-// to implement BinarySearchTree
-public class MyBinarySearchTree {
+public class BinarySearchTree {
     public TreeNode root;
+    private MyQueue preQueue;
+    private MyQueue postQueue;
 
-    public MyBinarySearchTree insert(int value) {
+    public BinarySearchTree(MyQueue preQueue, MyQueue postQueue) {
+        this.preQueue = preQueue;
+        this.postQueue = postQueue;
+    }
+
+    public MyQueue getPreQueue() {
+        return preQueue;
+    }
+
+    public void setPreQueue(MyQueue preQueue) {
+        this.preQueue = preQueue;
+    }
+
+    public MyQueue getPostQueue() {
+        return postQueue;
+    }
+
+    public void setPostQueue(MyQueue postQueue) {
+        this.postQueue = postQueue;
+    }
+
+    public problem2.main.BinarySearchTree insert(int value) {
         TreeNode node = new TreeNode(value);
         if (root == null) {
             root = node;
@@ -65,7 +81,7 @@ public class MyBinarySearchTree {
         if (currRoot == null) {
             return;
         }
-        System.out.print(currRoot.value + "  ");
+        preQueue.enqueue(currRoot.value);
         printPreOrderRec(currRoot.left);
         printPreOrderRec(currRoot.right);
     }
@@ -81,7 +97,7 @@ public class MyBinarySearchTree {
         }
         printPostOrderRec(currRoot.left);
         printPostOrderRec(currRoot.right);
-        System.out.print(currRoot.value + "  ");
+        postQueue.enqueue(currRoot.value);
     }
 
     private int countrr = 0;
@@ -94,36 +110,4 @@ public class MyBinarySearchTree {
         this.countrr = countrr;
     }
 
-    public void printLeft() {
-        printLeftHelp(root);
-        System.out.println("");
-    }
-
-    private void printLeftHelp(TreeNode currRoot) {
-        if (currRoot == null) {
-            return;
-        }
-        System.out.print(currRoot.value + "  ");
-        printLeftHelp(currRoot.left);
-    }
-
-    public int notChildCounter() {
-        int counter1 = 0;
-        int counter2 = 0;
-        TreeNode current = root;
-        while (current != null) {
-            if (current.left == null) {
-                counter1++;
-            }
-            current = current.left;
-        }
-        current = root;
-        while (current != null) {
-            if (current.left == null) {
-                counter2++;
-            }
-            current = current.right;
-        }
-        return counter1 + counter2;
-    }
 }
